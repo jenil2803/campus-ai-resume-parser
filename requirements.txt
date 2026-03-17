@@ -1,0 +1,8 @@
+streamlit
+pymongo
+PyPDF2
+sentence-transformers
+pandas
+numpy
+scikit-learn
+python-dotenv
