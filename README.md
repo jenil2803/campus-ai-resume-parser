@@ -1,67 +1,69 @@
-# AI Resume Parser for Campus Drives
+# AI Resume Ranker for Campus Placements
 
-A fully functional, end-to-end Proof of Concept (PoC) for mapping student resumes to given Job Descriptions using an AI Semantic Matcher (all-MiniLM-L6-v2) and Regex skill extraction. Built with Python and Streamlit processing data securely via a MongoDB Atlas backend.
+Welcome! This application uses Artificial Intelligence to instantly read student resumes and rank them against a specific Job Description. It saves hours of manual reading by mathematically scoring how well a student's skills and projects match what a recruiter is looking for.
 
-## Architecture Structure
-This repository contains two distinct front-end portals that read and write from a single shared MongoDB database:
+## 🏢 How It Works (The Architecture in Plain English)
 
-1. **Student Portal** (`student_app.py`): Students input their information and upload a PDF resume. The app automatically extracts text, finds the CGPA, and isolates the "Projects" section using NLP heuristics.
-2. **HR Dashboard** (`hr_app.py`): Recruiters provide a Job Description (JD) and a CGPA cut-off. The app automatically scans all pending applicant resumes for key technical skills and uses Cosine Similarity against the JD to calculate a "Base Match Score" and a specific "Project Match Score", generating a ranked leaderboard of the best candidates. 
+Think of this project as an office with three rooms:
+
+1. **The Student Intake Room (The Student Portal):** Students visit a simple webpage where they type in their name, Roll Number, and upload their Resume (as a PDF). The system automatically handles reading the PDF, figuring out their exact CGPA, and separating their "Projects" section from the rest of the text.
+2. **The Filing Cabinet (The Database):** Once a student clicks submit, their information is safely locked away in a digital filing cabinet hosted in the cloud (MongoDB Atlas). 
+3. **The Recruiter's Desk (The HR Dashboard):** The hiring manager visits a separate webpage. They type in the job requirements (the Job Description) and click "Process". The system's "Brain" (an AI language model called `MiniLM`) then reads every resume in the Filing Cabinet, understands the meaning of the words, and assigns each candidate a score out of 100%. The best matches float straight to the top of the leaderboard!
 
 ---
 
-## 🚀 How to Run Locally on Your PC
+## 🚀 How to Run this App on Your Computer
 
-If you are cloning this project to run on your own machine, follow these exact steps:
+You don't need to be a programmer to test this out! Just follow these step-by-step instructions.
 
-### Prerequisites
-* **Python 3.8+** installed on your system.
-* **MongoDB Server:** This project is already connected to a cloud-hosted MongoDB Atlas cluster, meaning you do not need to set up your own database. Just use the provided connection string in Step 3! 
+### Step 1: Prepare Your Computer
+Verify that your computer has **Python** installed. 
+* Open your computer's Terminal (on Mac) or Command Prompt (on Windows) and type `python3 --version` or `python --version`. As long as it prints a number like `3.8` or higher, you are good to go!
 
-### 1. Clone the repository
-Open your terminal (or Command Prompt) and run:
+### Step 2: Download the Project
+In that same terminal window, copy and paste this command and press Enter to download the code to your computer:
 ```bash
 git clone https://github.com/jenil2803/campus-ai-resume-parser.git
 cd campus-ai-resume-parser
 ```
 
-### 2. Install Dependencies
-Install all required Python packages (Streamlit, PyMongo, PyPDF2, sentence-transformers, Pandas, Scikit-learn):
+### Step 3: Install the "Engines"
+The code relies on a few pre-built tools (like the PDF reader and the math engines). Tell your computer to install them by typing:
 ```bash
 pip install -r requirements.txt
 ```
-*(Note: If you are on a Mac, you may need to use `pip3` instead of `pip`).*
+*(Note: If you are on a Mac, you might need to type `pip3` instead of `pip`).*
 
-### 3. Configure the Environment Variables
-You need to connect the applications to your MongoDB database. 
-1. In the root folder (`campus-ai-resume-parser`), create a new file named exactly: `.env`
-2. Open the `.env` file in any text editor and paste this exact MongoDB connection string:
+### Step 4: Add the Database Key
+The application needs a "key" to open the cloud Filing Cabinet. 
+1. Open the project folder (`campus-ai-resume-parser`) on your computer.
+2. Create a brand new, blank file and name it exactly: `.env`
+3. Open that `.env` file with any text editor (like Notepad or TextEdit).
+4. Paste this exact line of text into the file and save it:
 ```txt
 MONGO_URI=mongodb+srv://jenil28:jenil123@cluster0.g6ponuy.mongodb.net/?appName=Cluster0
 ```
 
-### 4. Run the Student Portal
-Open a terminal inside the project folder and run the Student application:
+### Step 5: Start the Student Portal
+Go back to your terminal window. Let's turn on the webpage for the students:
 ```bash
 streamlit run student_app.py
 ```
-This will open `http://localhost:8501` in your browser. Feel free to submit a few sample PDF resumes here!
+A webpage will instantly pop up in your browser! Feel free to fill it out and upload a sample PDF resume. 
 
-### 5. Run the HR Dashboard
-Open a **new, separate terminal window** (keep the Student portal running in the first one), navigate to the project folder, and run:
+### Step 6: Start the HR Dashboard
+Leave that first terminal window open and running. Open a **brand new terminal window**. 
+Navigate back to your project folder:
+```bash
+cd campus-ai-resume-parser
+```
+Now, turn on the recruiter's webpage:
 ```bash
 streamlit run hr_app.py
 ```
-This will open `http://localhost:8502` in your browser. 
-1. Paste a Job Description.
-2. Set a minimum CGPA.
-3. Click **"Process Pending Applicants"** to execute the AI matching pipeline!
+A second webpage will open up! 
 
----
-
-## 🛠 Features Included
-* **SSL Bypass:** The database configuration currently ignores SSL certificate errors (`tlsAllowInvalidCertificates=True`), making this completely safe to test locally across Windows, Mac, or Linux without configuring system certificates. 
-* **Duplicate Prevention:** The student portal prevents the same Roll Number from applying twice.
-* **Explainability:** The HR dashboard visually explains the score breakdown (60% Base / 40% Project) and highlights matched Key Skills.
-* **Interactive Data:** Recruiters can actively "Schedule Interviews" within the HR portal, turning candidate rows green, or reject candidates.
-* **Hidden Reset Utility:** Inside the HR dashboard sidebar, an "Admin Utilities" expander allows you to instantly clear the database for fresh testing.
+**To see the magic happen:**
+1. Paste a Job Description into the box on the left.
+2. Click the big **"Process Pending Applicants"** button.
+3. The AI will read the resumes you submitted, score them, and build a ranked table! You can click on any candidate to see exactly *why* they got the score they did.
