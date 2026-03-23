@@ -41,7 +41,7 @@ The application needs a "key" to open the cloud Filing Cabinet.
 3. Open that `.env` file with any text editor (like Notepad or TextEdit).
 4. Paste this exact line of text into the file and save it:
 ```txt
-MONGO_URI=mongodb+srv://jenil28:jenil123@cluster0.g6ponuy.mongodb.net/?appName=Cluster0
+MONGO_URI=mongodb+srv://username:password@cluster0.g6ponuy.mongodb.net/?appName=Cluster0
 ```
 
 ### Step 5: Start the Student Portal
